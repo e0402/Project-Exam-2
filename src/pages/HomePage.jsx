@@ -1,97 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
+import { useFetchVenues } from '../hooks/useFetchVenues';
+import useSearch from '../hooks/useSearch';
+import useFilters from '../hooks/useFilters';
 import ListingsCard from '../components/common/ListingsCard';
 
 const HomePage = () => {
-  const [homes, setHomes] = useState([]);
-  const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
-  const [filters, setFilters] = useState({
-    wifi: false,
-    parking: false,
-    breakfast: false,
-    pets: false,
-  });
-  const [priceFilter, setPriceFilter] = useState({
-    min: 0,
-    max: 10000,
-  });
-  const [starFilter, setStarFilter] = useState(0);
+  const { venues, error, isLoading } = useFetchVenues();
+  const { searchTerm, suggestions, handleSearchChange, setSuggestions } = useSearch(venues);
+  const { 
+    filters, 
+    priceFilter, 
+    starFilter, 
+    handleFilterChange, 
+    handlePriceFilterChange, 
+    handleStarFilterChange 
+  } = useFilters();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('https://api.noroff.dev/api/v1/holidaze/venues');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setHomes(data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleSearchChange = (event) => {
-    const value = event.target.value;
-    setSearchTerm(value);
-
-    if (value.length > 0) {
-      const uniqueCountries = Array.from(new Set(homes.map((home) => home.location?.country).filter(Boolean)));
-      const filteredSuggestions = uniqueCountries.filter((country) =>
-        country.toLowerCase().startsWith(value.toLowerCase())
-      );
-
-      setSuggestions(filteredSuggestions);
-    } else {
-      setSuggestions([]);
-    }
-  };
-
-  const handleFilterChange = (event) => {
-    const { name, checked } = event.target;
-    setFilters(prevFilters => ({ ...prevFilters, [name]: checked }));
-  };
-
-  const handlePriceFilterChange = (value) => {
-    setPriceFilter((prev) => ({
-      ...prev,
-      max: Number(value),
-    }));
-  };
-
-  const handleStarFilterChange = (event) => {
-    setStarFilter(Number(event.target.value));
-  };
-
-  const applyFilters = (homes, filters, searchTerm, priceFilter, starFilter) => {
-    return homes.filter((home) => {
-      const matchesSearchTerm = home.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                home.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                home.location?.country.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesAmenities = Object.entries(filters).every(([key, value]) => !value || home.meta[key]);
-      const matchesPrice = home.price >= priceFilter.min && home.price <= priceFilter.max;
-      const matchesStars = starFilter === 0 || (home.rating && home.rating >= starFilter);
+  const applyFilters = (venues, filters, searchTerm, priceFilter, starFilter) => {
+    return venues.filter((venue) => {
+      const matchesSearchTerm = venue.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                venue.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                venue.location?.country.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesAmenities = Object.entries(filters).every(([key, value]) => !value || venue.meta[key]);
+      const matchesPrice = venue.price >= priceFilter.min && venue.price <= priceFilter.max;
+      const matchesStars = starFilter === 0 || (venue.rating && venue.rating >= starFilter);
       return matchesSearchTerm && matchesAmenities && matchesPrice && matchesStars;
     });
   };
 
-  const filteredHomes = applyFilters(homes, filters, searchTerm, priceFilter, starFilter);
+  const filteredVenues = applyFilters(venues, filters, searchTerm, priceFilter, starFilter);
 
- return (
-  <div className="container mx-auto px-4 py-6">
-    <h1 className='text-center font-bold text-5xl mt-12 mb-12'>Find your dream accomodation!</h1>
-    {error && <p className="text-red-500">{error}</p>}
 
-    {/* Flex container for sidebar and main content */}
-    <div className="flex flex-row gap-8">
-
+  return (
+    <div className="container mx-auto px-4 py-6">
+      <h1 className='text-center font-bold text-5xl mt-12 mb-12'>Find your dream accommodation!</h1>
+      {error && <p className="text-red-500">{error}</p>}
+      {isLoading && <p>Loading homes...</p>}
+      
       {/* Filter sidebar */}
-      <aside className="w-1/4 pt-12 mt-4 mr-12 self-start">
+      <aside className="w-1/4 pt-12 mt-8 mr-12 self-start">
         {/* Checkboxes for Amenities Filters */}
         <div className="mb-4">
           {Object.keys(filters).map((filterKey) => (
@@ -108,7 +55,7 @@ const HomePage = () => {
         </div>
 
         {/* Price Range Filter */}
-        <div className="my-5">
+        <div className="my-10">
           <label htmlFor="priceRange" className="block text-sm font-medium text-gray-700">
             Max Price: ${priceFilter.max}
           </label>
@@ -118,7 +65,7 @@ const HomePage = () => {
             min="0"
             max="10000"
             value={priceFilter.max}
-            onChange={(e) => handlePriceFilterChange(e.target.value)}
+            onChange={(e) => handlePriceFilterChange(0, Number(e.target.value))}
             className="mt-1 h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer w-full"
           />
         </div>
@@ -126,13 +73,13 @@ const HomePage = () => {
         {/* Star Rating Filter */}
         <div className="my-5">
           <label htmlFor="starRating" className="block text-sm font-medium text-gray-700">
-            Minimum Star Rating
+            Star Rating:
           </label>
           <select
             id="starRating"
             value={starFilter}
-            onChange={handleStarFilterChange}
-            className="mt-1 block pl-0 pr-1 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            onChange={(e) => handleStarFilterChange(Number(e.target.value))}
+            className="mt-2 block pl-0 pr-1 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
           >
             <option value="0">All Ratings</option>
             <option value="1">1 Star +</option>
@@ -146,11 +93,11 @@ const HomePage = () => {
 
       {/* Main content */}
       <main className="flex-grow">
-        {/* Search field remains here */}
-        <div className="relative mb-6">
+        {/* Search field and suggestions */}
+        <div className="relative mb-10">
           <input
             type="text"
-            className="p-2 border rounded w-full"
+            className="p-2 border rounded w-full placeholder-gray-800"
             placeholder="Search homes by name, description, or country"
             value={searchTerm}
             onChange={handleSearchChange}
@@ -162,7 +109,7 @@ const HomePage = () => {
                   key={suggestion}
                   className="p-2 hover:bg-gray-100 cursor-pointer"
                   onClick={() => {
-                    setSearchTerm(suggestion);
+                    searchTerm(suggestion);
                     setSuggestions([]);
                   }}
                 >
@@ -175,20 +122,17 @@ const HomePage = () => {
 
         {/* Listings grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {homes.length > 0 ? (
-            filteredHomes.map((home) => (
-              <ListingsCard key={home.id} home={home} />
+          {filteredVenues.length > 0 ? (
+            filteredVenues.map((venue) => (
+              <ListingsCard key={venue.id} home={venue} />
             ))
           ) : (
-            <p>Loading homes...</p>
+            <p>No homes match your criteria.</p>
           )}
         </div>
       </main>
-
     </div>
-  </div>
-);
-
+  );
 };
 
 export default HomePage;
