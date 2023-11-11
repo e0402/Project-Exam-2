@@ -2,7 +2,7 @@ import React from 'react';
 import { useFetchVenues } from '../hooks/useFetchVenues';
 import useSearch from '../hooks/useSearch';
 import useFilters from '../hooks/useFilters';
-import ListingsCard from '../components/common/ListingsCard';
+import AllVenuesCard from '../components/common/AllVenuesCard';
 
 const HomePage = () => {
   const { venues, error, isLoading } = useFetchVenues();
@@ -120,11 +120,11 @@ const HomePage = () => {
           )}
         </div>
 
-        {/* Listings grid */}
+        {/* AllVenuesCards grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredVenues.length > 0 ? (
             filteredVenues.map((venue) => (
-              <ListingsCard key={venue.id} home={venue} />
+              <AllVenuesCard key={venue.id} home={venue} />
             ))
           ) : (
             <p>No homes match your criteria.</p>
