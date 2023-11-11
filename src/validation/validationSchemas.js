@@ -53,4 +53,4 @@ export const createVenueSchema = yup
   })
   .required();
 
-export const updateListingSchema = createVenueSchema.clone().noUnknown();
+export const updateVenueSchema = createVenueSchema.clone().noUnknown();
