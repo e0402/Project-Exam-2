@@ -59,12 +59,14 @@ const RegisterForm = () => {
         register={register}
         name="name"
         label="Username"
+        placeholder="User123" 
         error={errors.name?.message}
       />
       <Input
         register={register}
         name="email"
         label="Email"
+        placeholder="example123@stud.noroff.no" 
         type="email"
         error={errors.email?.message}
       />
@@ -72,6 +74,7 @@ const RegisterForm = () => {
         register={register}
         name="password"
         label="Password"
+        placeholder="PassWord123" 
         type="password"
         error={errors.password?.message}
       />
@@ -79,6 +82,7 @@ const RegisterForm = () => {
         register={register}
         name="avatar"
         label="Avatar URL (optional)"
+        placeholder="http://url.com/image.jpg" 
         error={errors.avatar?.message}
       />
       <div className="flex items-center mb-4">
