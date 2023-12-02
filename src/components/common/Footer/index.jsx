@@ -51,14 +51,14 @@ function Footer() {
             <h4 className="font-bold text-xl mb-4">Newsletter</h4>
             <input 
               type="email" 
-              className="mt-3 p-2 rounded w-full border border-gray-500" 
+              className="mt-3 p-2 rounded w-full border border-gray-400" 
               placeholder="example123@something.com" 
             />
             <button className="bg-white hover:bg-gray-100 text-blue-700 border border-blue-700 font-semibold py-2 px-7 rounded mt-2 w-full">Subscribe</button>
           </div>
 
         </div>
-        <div className="mt-10 border-t border-gray-700 pt-5 flex justify-center">
+        <div className="mt-10 border-t border-gray-300 pt-5 flex justify-center">
             <p>&copy; {new Date().getFullYear()} Holidaze. All Rights Reserved.</p>
         </div>
 
