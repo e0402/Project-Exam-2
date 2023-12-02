@@ -1,31 +1,27 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getErrorMessage } from "../utils/utils";
+import { useErrorHandling } from "./useErrorHandling";
 
 export const useFormSubmit = (apiCall, { onSuccess, onFailure }) => {
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { showError, clearError } = useErrorHandling();
 
-  const handleSubmit = async (data, event) => {
-    if (event) event.preventDefault();
-    setError(null);
+  const handleSubmit = async (data) => {
+    clearError();
 
     try {
       const response = await apiCall(data);
-
       if (onSuccess) {
         onSuccess(response, navigate);
       }
     } catch (submissionError) {
-      console.error("Submission error:", submissionError);
-      const errorMessage =
-        submissionError.response?.data?.message ||
-        "An error occurred during the request.";
-      setError(errorMessage);
+      const formattedError = getErrorMessage(submissionError);
+      showError(formattedError);
       if (onFailure) {
         onFailure(submissionError, navigate);
       }
     }
   };
 
-  return { error, handleSubmit };
+  return { handleSubmit };
 };
