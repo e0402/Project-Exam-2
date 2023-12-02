@@ -1,4 +1,5 @@
 import React from "react";
+import { FaSignInAlt } from 'react-icons/fa';
 
 const Modal = ({ isOpen, closeModal, children }) => {
   if (!isOpen) return null;
@@ -12,7 +13,7 @@ const Modal = ({ isOpen, closeModal, children }) => {
         >
           X
         </button>
-        <h1 className="text-2xl font-bold mb-4 text-center">Login</h1>
+        <h1 className="text-2xl font-bold mb-4 text-center">Login <FaSignInAlt className="inline-block ml-2 text-2xl relative top-[-2px]" /></h1>
         {children}
       </div>
     </div>
