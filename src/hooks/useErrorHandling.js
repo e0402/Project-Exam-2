@@ -1,19 +1,26 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
-export const useErrorHandling = (initialState = "") => {
-  const [error, setError] = useState(initialState);
+export function useErrorHandling() {
+  const [apiError, setApiError] = useState(null);
 
-  const showError = (errorMessage) => {
-    setError(errorMessage);
+  const showError = useCallback((message) => {
+    setApiError(message);
+  }, []);
+
+  const clearError = useCallback(() => {
+    setApiError(null);
+  }, []);
+
+  const getCombinedErrorMessage = (fetchError) => {
+    if (fetchError && apiError) {
+      return `${fetchError}. ${apiError}`;
+    } else if (fetchError) {
+      return fetchError;
+    } else if (apiError) {
+      return apiError;
+    }
+    return null;
   };
 
-  const clearError = () => {
-    setError("");
-  };
-
-  return {
-    error,
-    showError,
-    clearError,
-  };
-};
+  return { apiError, showError, clearError, getCombinedErrorMessage };
+}
