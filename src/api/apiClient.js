@@ -24,28 +24,26 @@ export const apiClient = async (endpoint, options = {}) => {
   }
 
   try {
-    const response = await fetch(url, {
-      ...options,
-      headers,
-    });
+    const response = await fetch(url, { ...options, headers });
+
+    const responseJson = await response.json();
 
     if (!response.ok) {
-      try {
-        const errorResponse = await response.json();
-        throw new Error(
-          errorResponse.message ||
-            `Network response was not ok (status: ${response.status})`
-        );
-      } catch (jsonParseError) {
-        throw new Error(
-          `Network response was not ok and error message could not be parsed (status: ${response.status})`
-        );
-      }
+      const errorDetails = `Request URL: ${url}, Method: ${
+        options.method
+      }, Response: ${JSON.stringify(responseJson)}`;
+      const error = new Error(
+        responseJson.message ||
+          `Network response was not ok (status: ${response.status})`
+      );
+      error.status = response.status;
+      error.response = responseJson;
+      error.details = errorDetails;
+      throw error;
     }
 
-    return await response.json();
+    return responseJson;
   } catch (error) {
-    console.error("API call failed:", error);
     throw error;
   }
 };

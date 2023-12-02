@@ -1,11 +1,18 @@
 import { apiClient } from "./apiClient";
 
-export const getVenues = () => {
-  return apiClient("/holidaze/venues");
+export const getVenues = (
+  limit = 100,
+  offset = 0,
+  sort = "created",
+  sortOrder = "desc"
+) => {
+  return apiClient(
+    `/holidaze/venues?_owner=true&limit=${limit}&offset=${offset}&sort=${sort}&sortOrder=${sortOrder}`
+  );
 };
 
 export const getVenueById = (id) => {
-  return apiClient(`/holidaze/venues/${id}`);
+  return apiClient(`/holidaze/venues/${id}?_bookings=true&_owner=true`);
 };
 
 export const createVenue = (venueData) => {

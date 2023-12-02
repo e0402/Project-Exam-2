@@ -1,7 +1,7 @@
 import { apiClient } from "./apiClient";
 
 export const getBookings = () => {
-  return apiClient("/holidaze/bookings");
+  return apiClient("/holidaze/bookings?_customer=true");
 };
 
 export const getBookingById = (id) => {
