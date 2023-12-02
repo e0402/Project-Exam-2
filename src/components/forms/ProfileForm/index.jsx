@@ -91,13 +91,15 @@ function ProfileForm() {
                     Avatar updated successfully!
                 </div>
             )}
-            <div className="text-center mt-12">
-                <p className="mb-5">
-                    <span className="font-bold text-lg">Name: </span>{user.name}
-                </p>
-                <p className="mb-5">
-                    <span className="font-bold text-lg">Email: </span>{user.email}
-                </p>
+            <div className="mt-12 flex justify-center w-full">
+                <div>
+                    <p className="mb-5">
+                        <span className="font-bold text-lg">Name: </span>{user.name}
+                    </p>
+                    <p className="mb-5">
+                        <span className="font-bold text-lg">Email: </span>{user.email}
+                    </p>
+                </div>
             </div>
         </div>
     );
