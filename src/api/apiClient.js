@@ -26,7 +26,11 @@ export const apiClient = async (endpoint, options = {}) => {
   try {
     const response = await fetch(url, { ...options, headers });
 
-    const responseJson = await response.json();
+    const contentType = response.headers.get("Content-Type");
+    let responseJson = {};
+    if (contentType && contentType.includes("application/json")) {
+      responseJson = await response.json();
+    }
 
     if (!response.ok) {
       const errorDetails = `Request URL: ${url}, Method: ${
