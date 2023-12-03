@@ -85,7 +85,7 @@ const RegisterForm = () => {
         placeholder="http://url.com/image.jpg" 
         error={errors.avatar?.message}
       />
-      <div className="flex items-center mb-4">
+      <div className="flex items-center my-8">
         <input
           id="venueManager"
           type="checkbox"

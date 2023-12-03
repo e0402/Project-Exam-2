@@ -76,7 +76,7 @@ const LoginForm = ({ onLoginSuccess, isModal }) => {
         type="password" 
         error={errors.password?.message} 
       />
-      <button type="submit" className='bg-blue-600 hover:bg-blue-700 text-white border border-blue-700 font-semibold py-2 px-8 w-full rounded-full mt-2'>Log in</button>
+      <button type="submit" className='bg-blue-600 hover:bg-blue-700 text-white border border-blue-700 font-semibold py-2 px-8 w-full rounded-full mt-8'>Log in</button>
 
       {loginSuccess && (
         <Modal>
