@@ -4,6 +4,7 @@ import VenueCard from '../../common/VenueCard';
 import { useFetchVenueById } from '../../../hooks/useFetchVenueById';
 import Spinner from '../../common/LoadingSpinner';
 import { useErrorHandling } from '../../../hooks/useErrorHandling';
+import HelmetWrapper from '../../common/HelmetWrapper';
 
 const SingleVenue = () => {
   const { id } = useParams();
@@ -26,6 +27,10 @@ const SingleVenue = () => {
 
   return (
     <div className="m-4 md:m-6 lg:m-12 xl:m-12">
+      <HelmetWrapper 
+        title="More info" 
+        description="View more details about your chosen venue." 
+      />
       <VenueCard venue={venue} bookedDates={bookedDates} maxGuests={venue.maxGuests} isSingleVenuePage={true} owner={owner} />
     </div>
   );

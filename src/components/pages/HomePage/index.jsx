@@ -6,6 +6,7 @@ import VenueCard from '../../common/VenueCard';
 import { FaWifi, FaStar, FaPaw, FaParking, FaCoffee, FaSearch, FaExclamationTriangle, FaTimes } from 'react-icons/fa';
 import Spinner from '../../common/LoadingSpinner';
 import { useErrorHandling } from '../../../hooks/useErrorHandling';
+import HelmetWrapper from '../../common/HelmetWrapper';
 
 const HomePage = () => {
   const { venues, isLoading } = useFetchVenues();
@@ -49,6 +50,10 @@ const HomePage = () => {
 
  return (
   <div className="2xl:container mx-auto">
+    <HelmetWrapper 
+      title="Home" 
+      description="Explore our wide range of beatiful accomodations." 
+    />
     <div className='mx-auto max-w-lg sm:max-w-none'>
     <div
       className="relative mx-5 max-w-lg sm:max-w-none text-white text-center p-9 md:ml-12 md:mr-9 md:p-16 rounded-3xl mt-10 mb-12"

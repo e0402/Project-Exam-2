@@ -7,6 +7,7 @@ import Spinner from '../../common/LoadingSpinner';
 import ImageDisplay from '../../common/ImageDisplay';
 import { useErrorHandling } from '../../../hooks/useErrorHandling';
 import { getErrorMessage } from '../../../utils/utils';
+import HelmetWrapper from '../../common/HelmetWrapper';
 
 const MyListingsPage = () => {
   const { user, venues, setVenues } = useFetchProfile();
@@ -45,6 +46,10 @@ const MyListingsPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <HelmetWrapper 
+        title="My Listings" 
+        description="A display of all your recent venue listings." 
+      />
       <h1 className="text-4xl font-bold text-center mt-12 mb-14">My Venue Listings</h1>
       {venues.length === 0 ? (
         <div>

@@ -4,6 +4,7 @@ import { useFetchProfile } from '../../../hooks/useFetchProfile';
 import Spinner from '../../common/LoadingSpinner';
 import ImageDisplay from '../../common/ImageDisplay';
 import { useErrorHandling } from '../../../hooks/useErrorHandling';
+import HelmetWrapper from '../../common/HelmetWrapper';
 
 const MyBookingsPage = () => {
     const { user, bookings } = useFetchProfile();
@@ -24,8 +25,11 @@ const MyBookingsPage = () => {
   
     return (
         <div className="container mx-auto px-4 py-8">
+           <HelmetWrapper 
+              title="My bookings" 
+              description="A display of all your recent bookings." 
+           />
           <h1 className="text-4xl font-bold text-center mb-12 mt-12">My Bookings</h1>
-      
           {bookings.length === 0 ? (
             <div className="text-center">
               <p className="text-xl font-semibold mt-2 mb-5">You have no bookings yet.</p>
