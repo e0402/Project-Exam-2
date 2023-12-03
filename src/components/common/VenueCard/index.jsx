@@ -4,7 +4,7 @@ import RatingStars from '../RatingStars';
 import BookingForm from '../../forms/BookingForm';
 import LoginModal from '../LoginModal';
 import LoginForm from '../../forms/LoginForm';
-import { FaWifi, FaPaw, FaParking, FaCoffee, FaUser } from 'react-icons/fa';
+import { FaWifi, FaPaw, FaParking, FaCoffee, FaUser, FaMapMarkerAlt } from 'react-icons/fa';
 import Spinner from '../LoadingSpinner';
 import ImageDisplay from '../ImageDisplay';
 
@@ -75,7 +75,7 @@ const renderSingleVenueView = () => (
     <ImageDisplay media={venue.media} displayType="slider" />
     
     {/* Venue Name */}
-    <h1 className="text-3xl text-center font-semibold mx-5 mt-10 mb-5">{venue.name}</h1>
+    <h1 className="text-3xl text-center font-bold mx-5 mt-10 mb-5">{venue.name}</h1>
     <div className="flex flex-row justify-center items-center mx-5">
       {/* Owner Information */}
       <div className="text-sm">
@@ -95,14 +95,25 @@ const renderSingleVenueView = () => (
     {/* Venue Details and Booking Form */}
     <div className="flex flex-col md:flex-row p-2 md:p-12 ml-2">
       <div className="md:w-2/3 md:mr-4">
-        <p className="text-m font-semibold mt-8 mb-8">
-          <span className='font-bold'>Price: </span>{venue.price ? `$${venue.price.toLocaleString()}` : 'Contact for price'} (Per Night)
+        <p className="text-lg mt-8 mb-8">
+          <span className='font-bold'>Price: </span>{venue.price ? `$${venue.price.toLocaleString()}` : 'Contact for price'} <span className='text-sm font-semibold'>(Per Night)</span>
         </p>
         <p className="text-gray-600 mt-3 mb-8">{venue.description}</p>
 
+        {/* Location Details */}
+        <div className='mb-8'>
+            <h2 className="text-lg font-bold mb-5"><FaMapMarkerAlt className="mr-2 text-xl inline-block relative top-[-5px]"/>Location:</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <p><span className="font-semibold">Address:</span> {venue.location.address}</p>
+              <p><span className="font-semibold">City:</span> {venue.location.city}</p>
+              <p><span className="font-semibold">Country:</span> {venue.location.country}</p>
+              <p><span className="font-semibold">Continent:</span> {venue.location.continent}</p>
+            </div>
+        </div>
+
         {/* Additional Details */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-3">Additional info:</h2>
+          <h2 className="text-lg font-bold mb-5">Additional info:</h2>
           <div className="grid grid-cols-2 gap-4">
             <p>
               <FaUser className="inline mr-1" /> Guests: {venue.maxGuests}
