@@ -3,7 +3,7 @@ import { useFetchVenues } from '../../../hooks/useFetchVenues';
 import useSearch from '../../../hooks/useSearch';
 import useFilters from '../../../hooks/useFilters';
 import VenueCard from '../../common/VenueCard';
-import { FaWifi, FaStar, FaPaw, FaParking, FaCoffee, FaSearch, FaExclamationTriangle, FaTimesCircle } from 'react-icons/fa';
+import { FaWifi, FaStar, FaPaw, FaParking, FaCoffee, FaSearch, FaExclamationTriangle, FaTimes } from 'react-icons/fa';
 import Spinner from '../../common/LoadingSpinner';
 import { useErrorHandling } from '../../../hooks/useErrorHandling';
 
@@ -72,7 +72,7 @@ const HomePage = () => {
         onChange={handleSearchChange}
       />
       {searchTerm && (
-          <FaTimesCircle 
+          <FaTimes
             className="absolute right-3 top-3.5 text-gray-600 cursor-pointer"
             onClick={handleClearSearch}
             size={16}
