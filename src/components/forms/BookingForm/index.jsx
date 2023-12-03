@@ -124,8 +124,8 @@ const BookingForm = ({ venueId, bookedDates, pricePerNight, maxGuests }) => {
         </div>
   
         {/* Displaying Total Price */}
-        <div className="text-center text-lg font-bold my-4">
-          Total Price: ${totalPrice.toLocaleString()}
+        <div className="text-center text-lg my-4">
+          <span className='font-bold'>Total Price:</span> ${totalPrice.toLocaleString()}
         </div>
   
         <div className="text-center">
