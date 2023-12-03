@@ -9,7 +9,7 @@ const SecondaryNavbar = () => {
       <ul className="flex flex-col sm:flex-row justify-center list-none m-0 p-0">
         <li className={`py-4 px-8 ${window.location.pathname === '/profile' ? 'bg-gray-700' : ''}`}>
           <NavLink to="/profile" className="hover:text-gray-200">
-            Profile
+            Personal Details
           </NavLink>
         </li>
         <li className={`py-4 px-8 ${window.location.pathname === '/my-bookings' ? 'bg-gray-700' : ''}`}>
