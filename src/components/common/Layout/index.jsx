@@ -1,10 +1,10 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Outlet } from "react-router-dom";
 import Navbar from "../Navbar";
 import SecondaryNavbar from "../SecondaryNavbar";
 import Footer from "../Footer";
 
-function Layout({ children }) {
+function Layout() {
   const location = useLocation();
   const showSecondaryNavbar = ['/profile', '/my-bookings', '/create-venue', '/my-listings'].includes(location.pathname);
 
@@ -13,7 +13,7 @@ function Layout({ children }) {
       <Navbar />
       {showSecondaryNavbar && <SecondaryNavbar />}
       <main className="flex-1">
-        {children}
+        <Outlet />
       </main>
       <Footer />
     </div>
